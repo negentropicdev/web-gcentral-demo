@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=PackageDeveloperRepository::class)
  */
-class PackageDeveloper
+class DeveloperGroup
 {
     /**
      * @ORM\Id()

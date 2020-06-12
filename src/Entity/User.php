@@ -57,9 +57,19 @@ class User implements UserInterface
     private $packageRatings;
 
     /**
-     * @ORM\ManyToMany(targetEntity=PackageDeveloper::class, mappedBy="users")
+     * @ORM\ManyToMany(targetEntity=DeveloperGroup::class, mappedBy="users")
      */
     private $packageDevelopers;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $emailVerified;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $validationToken;
 
     public function __construct()
     {
@@ -213,14 +223,14 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|PackageDeveloper[]
+     * @return Collection|DeveloperGroup[]
      */
     public function getPackageDevelopers(): Collection
     {
         return $this->packageDevelopers;
     }
 
-    public function addPackageDeveloper(PackageDeveloper $packageDeveloper): self
+    public function addPackageDeveloper(DeveloperGroup $packageDeveloper): self
     {
         if (!$this->packageDevelopers->contains($packageDeveloper)) {
             $this->packageDevelopers[] = $packageDeveloper;
@@ -230,12 +240,36 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removePackageDeveloper(PackageDeveloper $packageDeveloper): self
+    public function removePackageDeveloper(DeveloperGroup $packageDeveloper): self
     {
         if ($this->packageDevelopers->contains($packageDeveloper)) {
             $this->packageDevelopers->removeElement($packageDeveloper);
             $packageDeveloper->removeUser($this);
         }
+
+        return $this;
+    }
+
+    public function getEmailVerified(): ?bool
+    {
+        return $this->emailVerified;
+    }
+
+    public function setEmailVerified(bool $emailVerified): self
+    {
+        $this->emailVerified = $emailVerified;
+
+        return $this;
+    }
+
+    public function getValidationToken(): ?string
+    {
+        return $this->validationToken;
+    }
+
+    public function setValidationToken(string $validationToken): self
+    {
+        $this->validationToken = $validationToken;
 
         return $this;
     }

@@ -45,7 +45,7 @@ class Package
     private $ratings;
 
     /**
-     * @ORM\ManyToMany(targetEntity=PackageDeveloper::class, mappedBy="packages")
+     * @ORM\ManyToMany(targetEntity=DeveloperGroup::class, mappedBy="packages")
      */
     private $developers;
 
@@ -140,14 +140,14 @@ class Package
     }
 
     /**
-     * @return Collection|PackageDeveloper[]
+     * @return Collection|DeveloperGroup[]
      */
     public function getDevelopers(): Collection
     {
         return $this->developers;
     }
 
-    public function addDeveloper(PackageDeveloper $developer): self
+    public function addDeveloper(DeveloperGroup $developer): self
     {
         if (!$this->developers->contains($developer)) {
             $this->developers[] = $developer;
@@ -157,7 +157,7 @@ class Package
         return $this;
     }
 
-    public function removeDeveloper(PackageDeveloper $developer): self
+    public function removeDeveloper(DeveloperGroup $developer): self
     {
         if ($this->developers->contains($developer)) {
             $this->developers->removeElement($developer);
