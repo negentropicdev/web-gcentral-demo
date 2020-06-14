@@ -1,0 +1,71 @@
+body {
+    padding-top: 3rem;
+    background-color: #EEE;
+}
+
+.navbar {
+    background-color: #0C405C;
+    box-shadow: 0px 5px 10px #666;
+}
+
+.top-content {
+    max-width: 1280px;
+    background: rgba(255,255,255, 0.4);
+    border-radius: 10px;
+    padding: 10px;
+    margin: 20px auto;
+}
+
+.inner_content {
+    background-color: white;
+    box-shadow: 0px 0px 10px white;
+    padding: 10px;
+}
+
+.banner {
+    position: relative;
+    text-align: center;
+    margin-bottom: 10px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.banner-text {
+    font-size: 2.5em;
+    font-weight: 600;
+    text-shadow: 0px 0px 6px black;
+    background: rgba(12, 64, 92, 0.7);
+    color: white;
+    padding: 0.1em;
+    height: 100%;
+}
+
+.flash-error {
+    color: #721C24;
+    background-color: #F8D7DA;
+    border-color: #F5C6CB;
+}
+
+.flash-warning {
+    color: #856404;
+    background-color: #FFF3CD;
+    border-color: #FFEEBA;
+}
+
+.flash-notice {
+    color: #0C5460;
+    background-color: #D1ECF1;
+    border-color: #BEE5EB;
+}
+
+.flash-success {
+    color: #155724;
+    background-color: #D4EDDA;
+    border-color: #C3E6CB;
+}
+
+.nav-link {
+    font-weight: 600;
+    color: white;
+}

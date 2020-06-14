@@ -32,5 +32,11 @@ Apache setup:
 Symfony/Composer packages: (Get by `composer install` after cloning the repo)
  - Full project template (`symfony new gcentral_demo --full`)
  - symfony/apache-pack
+ - symfony/webpack-encore-bundle (run `npm install` after installing)
  - annotations
  - nesbot/carbon
+
+##Production Install:
+
+PHP Extensions:
+ - ext-xml (`sudo apt-get install php-xml`)

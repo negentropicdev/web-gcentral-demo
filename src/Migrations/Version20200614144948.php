@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200607031059 extends AbstractMigration
+final class Version20200614144948 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -27,7 +27,7 @@ final class Version20200607031059 extends AbstractMigration
         $this->addSql('CREATE TABLE developer_group_user (developer_group_id INT NOT NULL, user_id INT NOT NULL, INDEX IDX_6E77D5FFBF3E3DC1 (developer_group_id), INDEX IDX_6E77D5FFA76ED395 (user_id), PRIMARY KEY(developer_group_id, user_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE package (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(100) NOT NULL, description LONGTEXT NOT NULL, version VARCHAR(20) NOT NULL, url VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE package_rating (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, package_id INT NOT NULL, rating INT NOT NULL, comment LONGTEXT NOT NULL, INDEX IDX_E67255FEA76ED395 (user_id), INDEX IDX_E67255FEF44CABFF (package_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, display_name VARCHAR(50) NOT NULL, full_name VARCHAR(80) NOT NULL, location VARCHAR(100) NOT NULL, UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, display_name VARCHAR(50) NOT NULL, full_name VARCHAR(80) NOT NULL, location VARCHAR(100) NOT NULL, email_verified TINYINT(1) NOT NULL, validation_token VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_8D93D649E7927C74 (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE developer_group_package ADD CONSTRAINT FK_93F19076BF3E3DC1 FOREIGN KEY (developer_group_id) REFERENCES developer_group (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE developer_group_package ADD CONSTRAINT FK_93F19076F44CABFF FOREIGN KEY (package_id) REFERENCES package (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE developer_group_user ADD CONSTRAINT FK_6E77D5FFBF3E3DC1 FOREIGN KEY (developer_group_id) REFERENCES developer_group (id) ON DELETE CASCADE');

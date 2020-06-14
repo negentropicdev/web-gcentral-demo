@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Package;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method Package|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +15,13 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PackageRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $em;
+
+    public function __construct(ManagerRegistry $registry,
+        EntityManagerInterface $em)
     {
         parent::__construct($registry, Package::class);
+        $this->em = $em;
     }
 
     // /**
