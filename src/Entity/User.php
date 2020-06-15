@@ -64,12 +64,32 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private $emailVerified;
+    private $reset_pass = true;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="datetime")
      */
-    private $validationToken;
+    private $registered;
+
+    /**
+     * @ORM\Column(type="string", length=40)
+     */
+    private $reg_ip;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $last_login;
+
+    /**
+     * @ORM\Column(type="string", length=40, nullable=true)
+     */
+    private $login_ip;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $temp_key;
 
     public function __construct()
     {
@@ -250,18 +270,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getEmailVerified(): ?bool
-    {
-        return $this->emailVerified;
-    }
-
-    public function setEmailVerified(bool $emailVerified): self
-    {
-        $this->emailVerified = $emailVerified;
-
-        return $this;
-    }
-
     public function getValidationToken(): ?string
     {
         return $this->validationToken;
@@ -270,6 +278,78 @@ class User implements UserInterface
     public function setValidationToken(string $validationToken): self
     {
         $this->validationToken = $validationToken;
+
+        return $this;
+    }
+
+    public function getResetPass(): ?bool
+    {
+        return $this->reset_pass;
+    }
+
+    public function setResetPass(bool $reset_pass): self
+    {
+        $this->reset_pass = $reset_pass;
+
+        return $this;
+    }
+
+    public function getRegistered(): ?\DateTimeInterface
+    {
+        return $this->registered;
+    }
+
+    public function setRegistered(\DateTimeInterface $registered): self
+    {
+        $this->registered = $registered;
+
+        return $this;
+    }
+
+    public function getRegIp(): ?string
+    {
+        return $this->reg_ip;
+    }
+
+    public function setRegIp(string $reg_ip): self
+    {
+        $this->reg_ip = $reg_ip;
+
+        return $this;
+    }
+
+    public function getLastLogin(): ?\DateTimeInterface
+    {
+        return $this->last_login;
+    }
+
+    public function setLastLogin(?\DateTimeInterface $last_login): self
+    {
+        $this->last_login = $last_login;
+
+        return $this;
+    }
+
+    public function getLoginIp(): ?string
+    {
+        return $this->login_ip;
+    }
+
+    public function setLoginIp(?string $login_ip): self
+    {
+        $this->login_ip = $login_ip;
+
+        return $this;
+    }
+
+    public function getTempKey(): ?string
+    {
+        return $this->temp_key;
+    }
+
+    public function setTempKey(?string $temp_key): self
+    {
+        $this->temp_key = $temp_key;
 
         return $this;
     }

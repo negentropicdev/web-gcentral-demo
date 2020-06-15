@@ -35,8 +35,5 @@ Symfony/Composer packages: (Get by `composer install` after cloning the repo)
  - symfony/webpack-encore-bundle (run `npm install` after installing)
  - annotations
  - nesbot/carbon
-
-##Production Install:
-
-PHP Extensions:
- - ext-xml (`sudo apt-get install php-xml`)
+ - phpmailer/phpmailer
+ - league/oauth2-google

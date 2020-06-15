@@ -2,13 +2,132 @@
 
 namespace App\Controller;
 
+use \DateTime;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
+use App\Form\RegistrationType;
+use App\Form\ChangePassType;
+use App\Entity\User;
+
+use App\Service\Mailer;
 
 class SecurityController extends AbstractController
 {
+    /**
+     * @Route("/register", name="user_register")
+     *
+     * @return void
+     */
+    public function register(Request $req, UserPasswordEncoderInterface $passwordEncoder, Mailer $mailer) {
+        $user = new User();
+        $form = $this->createForm(RegistrationType::class, $user);
+
+        $form->handleRequest($req);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+
+            $password = bin2hex(random_bytes(16));
+
+            $site = $req->getSchemeAndHttpHost();
+
+            $user->setPassword($passwordEncoder->encodePassword($user, $password));
+
+            $user->setRegistered(new DateTime());
+            $user->setRegIp($req->getClientIp());
+            $user->setTempKey(bin2hex(random_bytes(64)));
+
+            $mail = $mailer->createMail();
+
+            $mail->setFrom('negentropicdev@gmail.com', 'GCentral Admin');
+            $mail->addAddress($user->getEmail(), $user->getFullName());
+            $mail->Subject = $req->getHost() . ' User Registration';
+
+            $msg = 'Thank you for your registration, ' . $user->getFullName() . '!<br/>';
+            $msg .= '<br/>';
+            $msg .= 'Here is the information you provided:<br/>';
+            $msg .= 'Display Name: ' . $user->getDisplayName() . '<br/>';
+            $msg .= 'Location: ' . $user->getLocation() . '<br/>';
+            $msg .= '<br/>';
+            $msg .= 'To login, please visit <a href="' . $site . '/login">' . $site . '/login</a> and login with this email and your password:<br/>';
+            $msg .= '<br/>';
+            $msg .= $password . '<br/>';
+            $msg .= '<br/>';
+            $msg .= 'Happy coding!';
+
+            $mail->msgHTML($msg);
+            if (!$mail->send()) {
+                $error = 'There was an error sending your user registration email: ' . $mail->ErrorInfo . '<br>';
+                $error .= 'Email us at <a href="mailto:negentropicdev@gmail.com">negentropicdev@gmail.com</a> if you need assistance.';
+
+                return $this->render('user/register.html.twig', [
+                    'form' => $form->createView(),
+                    'error' => $error
+                ]);
+            }
+            
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('user/register.html.twig', [
+            'form' => $form->createView(),
+            'error' => null,
+        ]);
+    }
+
+    /**
+     * @Route("/pass", name="change_pass")
+     */
+    public function changePass(Request $req, UserPasswordEncoderInterface $passwordEncoder, Mailer $mailer): Response {
+        $form = $this->createForm(ChangePassType::class);
+
+        $form->handleRequest($req);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+            $user->setPassword($passwordEncoder->encodePassword($user, $form->getData()->getPassword()));
+
+            $mail = $mailer->createMail();
+
+            $mail->setFrom($_ENV['MAIL_EMAIL'], $_ENV['MAIL_NAME']);
+            $mail->addAddress($user->getEmail(), $user->getFullName());
+            $mail->Subject = $req->getHost() . ' User Password Changed';
+
+            $msg = 'The password for this email address has recently been changed.<br/>';
+            $msg .= '<br/>';
+            $msg .= 'If you did not change your email, please reply immediately to resolve the issue.<br/>';
+            $msg .= '<br/>';
+            $msg .= 'Happy Coding!';
+
+            $mail->msgHTML($msg);
+            $mail->send();
+
+            $user->setResetPass(false);
+            $user->setTempKey('');
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('profile');
+        }
+        
+        return $this->render('security/changepass.html.twig', [
+            'form' => $form->createView(),
+            'error' => null,
+        ]);
+    }
+
     /**
      * @Route("/login", name="app_login")
      */
