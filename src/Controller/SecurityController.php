@@ -76,6 +76,8 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Registration successful. Check your email for your one-time use password to log in.');
+
             return $this->redirectToRoute('home');
         }
 
@@ -118,6 +120,8 @@ class SecurityController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Password changed.');
 
             return $this->redirectToRoute('profile');
         }
