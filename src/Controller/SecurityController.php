@@ -49,17 +49,11 @@ class SecurityController extends AbstractController
             $mail->addAddress($user->getEmail(), $user->getFullName());
             $mail->Subject = $req->getHost() . ' User Registration';
 
-            $msg = 'Thank you for your registration, ' . $user->getFullName() . '!<br/>';
-            $msg .= '<br/>';
-            $msg .= 'Here is the information you provided:<br/>';
-            $msg .= 'Display Name: ' . $user->getDisplayName() . '<br/>';
-            $msg .= 'Location: ' . $user->getLocation() . '<br/>';
-            $msg .= '<br/>';
-            $msg .= 'To login, please visit <a href="' . $site . '/login">' . $site . '/login</a> and login with this email and your password:<br/>';
-            $msg .= '<br/>';
-            $msg .= $password . '<br/>';
-            $msg .= '<br/>';
-            $msg .= 'Happy coding!';
+            $msg = $this->renderView('email/registration.html.twig', [
+                'newuser' => $user,
+                'newpass' => $password,
+                'site' => $site
+            ]);
 
             $mail->msgHTML($msg);
             if (!$mail->send()) {
@@ -105,11 +99,7 @@ class SecurityController extends AbstractController
             $mail->addAddress($user->getEmail(), $user->getFullName());
             $mail->Subject = $req->getHost() . ' User Password Changed';
 
-            $msg = 'The password for this email address has recently been changed.<br/>';
-            $msg .= '<br/>';
-            $msg .= 'If you did not change your email, please reply immediately to resolve the issue.<br/>';
-            $msg .= '<br/>';
-            $msg .= 'Happy Coding!';
+            $msg = $this->renderView('email/changepass.html.twig');
 
             $mail->msgHTML($msg);
             $mail->send();

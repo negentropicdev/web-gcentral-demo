@@ -91,6 +91,11 @@ class User implements UserInterface
      */
     private $temp_key;
 
+    /**
+     * @ORM\OneToOne(targetEntity=DeveloperGroup::class, mappedBy="personal_user", cascade={"persist", "remove"})
+     */
+    private $personalGroup;
+
     public function __construct()
     {
         $this->packageRatings = new ArrayCollection();
@@ -350,6 +355,24 @@ class User implements UserInterface
     public function setTempKey(?string $temp_key): self
     {
         $this->temp_key = $temp_key;
+
+        return $this;
+    }
+
+    public function getPersonalGroup(): ?DeveloperGroup
+    {
+        return $this->personalGroup;
+    }
+
+    public function setPersonalGroup(?DeveloperGroup $personalGroup): self
+    {
+        $this->personalGroup = $personalGroup;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newPersonal_user = null === $personalGroup ? null : $this;
+        if ($personalGroup->getPersonalUser() !== $newPersonal_user) {
+            $personalGroup->setPersonalUser($newPersonal_user);
+        }
 
         return $this;
     }

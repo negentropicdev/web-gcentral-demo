@@ -22,7 +22,7 @@ class DeveloperGroup
     /**
      * @ORM\Column(type="string", length=100)
      */
-    private $name;
+    private $name = "";
 
     /**
      * @ORM\ManyToMany(targetEntity=Package::class, inversedBy="developers")
@@ -37,12 +37,17 @@ class DeveloperGroup
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $url;
+    private $url = "";
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $email;
+    private $email = "";
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="personalGroup", cascade={"persist", "remove"})
+     */
+    private $personal_user = null;
 
     public function __construct()
     {
@@ -139,6 +144,18 @@ class DeveloperGroup
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getPersonalUser(): ?User
+    {
+        return $this->personal_user;
+    }
+
+    public function setPersonalUser(?User $personal_user): self
+    {
+        $this->personal_user = $personal_user;
 
         return $this;
     }
