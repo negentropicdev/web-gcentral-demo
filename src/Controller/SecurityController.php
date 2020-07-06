@@ -41,7 +41,7 @@ class SecurityController extends AbstractController
 
             $user->setRegistered(new DateTime());
             $user->setRegIp($req->getClientIp());
-            $user->setTempKey(bin2hex(random_bytes(64)));
+            //$user->setTempKey(bin2hex(random_bytes(64)));
 
             $mail = $mailer->createMail();
 

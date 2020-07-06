@@ -41,4 +41,23 @@ class UserService {
 
         $qb = $this->em->createQueryBuilder();
     }
+
+    /**
+     * Finishes setup for a user, typically on the first time they log in.
+     *
+     * @param User $user The user to finish setting up
+     */
+    public function finishSetup(User $user) {
+        //make sure user has personal DeveloperGroup
+        if (is_null($user->getPersonalGroup())) {
+            $grp = new DeveloperGroup();
+
+            $user->setPersonalGroup($grp);
+            $grp->setPersonalUser($user);
+
+            $this->em->persist($user);
+            $this->em->persist($grp);
+            $this->em->flush();
+        }
+    }
 }

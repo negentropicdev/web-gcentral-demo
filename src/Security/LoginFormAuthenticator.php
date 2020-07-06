@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,12 +30,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     private $csrfTokenManager;
     private $passwordEncoder;
     private $router;
+    private $userService;
 
     public function __construct(EntityManagerInterface $entityManager,
         UrlGeneratorInterface $urlGenerator,
         CsrfTokenManagerInterface $csrfTokenManager,
         UserPasswordEncoderInterface $passwordEncoder,
-        RouterInterface $router
+        RouterInterface $router,
+        UserService $userService
         )
     {
         $this->entityManager = $entityManager;
@@ -42,6 +45,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
         $this->router = $router;
+        $this->userService = $userService;
     }
 
     public function supports(Request $request)
@@ -99,6 +103,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
         if (!is_null($user) && $user->getResetPass()) {
             return new RedirectResponse($this->router->generate('change_pass'));
+        }
+
+        if (is_null($user->getLastLogin())) {
+            //first login, finish user setup.
+            $this->userService->finishSetup($user);
         }
 
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
