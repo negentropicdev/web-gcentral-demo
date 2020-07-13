@@ -3,6 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Package;
+use App\Entity\DeveloperGroup;
+use App\Entity\User;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,6 +25,14 @@ class PackageRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Package::class);
         $this->em = $em;
+    }
+
+    public function topPackagesByColumn($col_name, $limit = 30) {
+
+        $q = $this->em->createQuery("SELECT p, g FROM App\Entity\Package p LEFT JOIN p.developers g ORDER BY p." . $col_name . " DESC");
+        $q->setMaxResults($limit);
+        
+        return $q->getResult();
     }
 
     // /**

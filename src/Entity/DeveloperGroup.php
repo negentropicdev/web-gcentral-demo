@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\PackageDeveloperRepository;
+use App\Repository\DeveloperGroupRepository;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=PackageDeveloperRepository::class)
+ * @ORM\Entity(repositoryClass=DeveloperGroupRepository::class)
  */
 class DeveloperGroup
 {

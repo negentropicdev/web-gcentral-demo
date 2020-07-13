@@ -30,7 +30,9 @@
             {% block pageHeader %}
                 <div class="banner text-center">
                     <div class="banner-text rounded">
-                        <h4>{{ block('title') }}</h4>
+                        {% block pageBanner %}
+                            <h4>{{ block('title') }}</h4>
+                        {% endblock %}
                     </div>
                 </div>
             {% endblock %}

@@ -49,6 +49,16 @@ class Package
      */
     private $developers;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $downloads;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $avg_rating;
+
     public function __construct()
     {
         $this->ratings = new ArrayCollection();
@@ -163,6 +173,30 @@ class Package
             $this->developers->removeElement($developer);
             $developer->removePackage($this);
         }
+
+        return $this;
+    }
+
+    public function getDownloads(): ?int
+    {
+        return $this->downloads;
+    }
+
+    public function setDownloads(int $downloads): self
+    {
+        $this->downloads = $downloads;
+
+        return $this;
+    }
+
+    public function getAvgRating(): ?float
+    {
+        return $this->avg_rating;
+    }
+
+    public function setAvgRating(float $avg_rating): self
+    {
+        $this->avg_rating = $avg_rating;
 
         return $this;
     }

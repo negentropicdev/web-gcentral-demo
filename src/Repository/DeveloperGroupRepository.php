@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\PackageDeveloper;
+use App\Entity\DeveloperGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method PackageDeveloper|null find($id, $lockMode = null, $lockVersion = null)
- * @method PackageDeveloper|null findOneBy(array $criteria, array $orderBy = null)
- * @method PackageDeveloper[]    findAll()
- * @method PackageDeveloper[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method DeveloperGroup|null find($id, $lockMode = null, $lockVersion = null)
+ * @method DeveloperGroup|null findOneBy(array $criteria, array $orderBy = null)
+ * @method DeveloperGroup[]    findAll()
+ * @method DeveloperGroup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PackageDeveloperRepository extends ServiceEntityRepository
+class DeveloperGroupRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PackageDeveloper::class);
+        parent::__construct($registry, DeveloperGroup::class);
     }
 
     // /**
-    //  * @return PackageDeveloper[] Returns an array of PackageDeveloper objects
+    //  * @return DeveloperGroup[] Returns an array of DeveloperGroup objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class PackageDeveloperRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?PackageDeveloper
+    public function findOneBySomeField($value): ?DeveloperGroup
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')
