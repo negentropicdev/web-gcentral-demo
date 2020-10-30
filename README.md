@@ -30,6 +30,7 @@ Apache setup:
 ## Linux server setup
  - LAMP stack
  - configure VirtualHost for apache
+ - enable mod_rewrite `sudo a2enmod rewrite`
  - install Composer `sudo apt install composer`
  - clone repo
  - install php dependencies `composer install` from within DocumentRoot
