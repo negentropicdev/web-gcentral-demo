@@ -27,6 +27,16 @@ Apache setup:
  - Point DocumentRoot to gcentral_demo/public directory
  - Copy apache-pack's public/.htaccess contents to Directory element contents in httpd.conf and set AllowOverride to none
 
+## Linux server setup
+ - LAMP stack
+ - configure VirtualHost for apache
+ - install Composer `sudo apt install composer`
+ - clone repo
+ - install php dependencies `composer install` from within DocumentRoot
+ - install npm `sudo apt install npm`
+ - install JS dependencies `npm install`
+ - build JS artifacts `npm run build`
+
 ## The following listings are for information only. If cloning this repo run the command specified to retrieve the dependencies.
 
 Symfony/Composer packages: (Get by `composer install` after cloning the repo)
